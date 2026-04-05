@@ -42,7 +42,7 @@ return {
             highlight_on_jump   = 300,
 
             -- Autosalt al símbol més proper al cursor
-            autojump = false,
+            autojump = true,
 
             -- Integració amb telescope per buscar símbols
             telescope = {
