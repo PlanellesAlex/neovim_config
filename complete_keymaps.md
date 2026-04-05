@@ -194,15 +194,6 @@
 
 ---
 
-## Latex
-
-| Mode | Keymap | Funció |
-|------|--------|--------|
-| n | `<leader>tn` | Activa/Desactiva el renderitzat de fórmules latex |
-| n | `<leader>np` | Obre un popup sota el cursor amb la fórmula més gran |
-
----
-
 ## Neo-Tree
 
 | Mode | Keymap | Funció |
@@ -235,3 +226,123 @@
 | n | `<leader>cm` | Memory usage |
 | n | `<leader>cs` | Symbol info |
 
+---
+ 
+## mini.surround (`mini-surround.lua`)
+ 
+> Prefix `gz` per no interferir amb flash (`s`). Funciona amb `(`, `)`, `[`, `]`, `{`, `}`, `"`, `'`, `` ` `` i tags HTML.
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `gza` + motion + caràcter | Afegeix surround. Ex: `gzaiw"` posa cometes a la paraula |
+| n | `gzd` + caràcter | Esborra el surround. Ex: `gzd"` treu les cometes |
+| n | `gzr` + vell + nou | Reemplaça surround. Ex: `gzr"'` canvia `"hola"` a `'hola'` |
+| n | `gzf` | Busca el surround endavant |
+| n | `gzF` | Busca el surround enrere |
+| n | `gzh` | Ressalta el surround |
+---
+
+## Lazygit — Tutorial
+ 
+> Obre lazygit des de Neovim amb `<leader>gg` o `<leader>gf`.
+> Prem `?` en qualsevol moment per veure els keymaps del context actual. `q` per sortir.
+ 
+### La interfície
+ 
+```
+┌─────────────┬──────────────────────────────────┐
+│ 1. Status   │                                  │
+│ 2. Files    │   Preview / Diff                 │
+│ 3. Branches │                                  │
+│ 4. Commits  │                                  │
+│ 5. Stash    │                                  │
+└─────────────┴──────────────────────────────────┘
+```
+ 
+Navega entre panells amb `1` `2` `3` `4` `5` o `Tab`. Dins de cada panell, `j`/`k` per moure't.
+ 
+### Panell Files (`2`) — git add i stage
+ 
+| Keymap | Funció |
+|--------|--------|
+| `Space` | Stage/unstage el fitxer seleccionat (`git add`) |
+| `a` | Stage/unstage TOTS els fitxers (`git add .`) |
+| `Enter` | Entra al fitxer per fer stage de línies individuals |
+| `Space` (dins fitxer) | Stage/unstage la línia o hunk seleccionat |
+| `v` (dins fitxer) | Selecciona un rang de línies |
+| `S` | Obre el menú d'stash |
+| `A` | Amend del darrer commit amb els canvis en stage |
+ 
+### Commit i push
+ 
+| Keymap | Funció |
+|--------|--------|
+| `c` | Commit (obre editor de missatge) |
+| `C` | Commit amb l'editor extern |
+| `A` | Amend — modifica el darrer commit |
+| `P` | Push |
+| `p` | Pull |
+ 
+### Panell Branches (`3`)
+ 
+| Keymap | Funció |
+|--------|--------|
+| `n` | Crea una branca nova |
+| `Space` | Checkout de la branca seleccionada |
+| `M` | Merge de la branca seleccionada a l'actual |
+| `r` | Rebase de l'actual sobre la seleccionada |
+| `d` | Esborra la branca |
+| `f` | Fetch de la branca |
+| `o` | Obre la pull request al navegador |
+ 
+### Panell Commits (`4`)
+ 
+| Keymap | Funció |
+|--------|--------|
+| `s` | Squash amb el commit anterior |
+| `f` | Fixup (squash sense editar missatge) |
+| `r` | Renombra el missatge del commit |
+| `d` | Drop (elimina el commit) |
+| `e` | Edita el commit (interactive rebase) |
+| `p` | Cherry-pick del commit seleccionat |
+| `ctrl+j` / `ctrl+k` | Mou el commit avall / amunt |
+| `Enter` | Veu els fitxers del commit |
+| `i` | Inicia rebase interactiu |
+| `m` → continue | Completa el rebase |
+ 
+### Panell Stash (`5`)
+ 
+| Keymap | Funció |
+|--------|--------|
+| `Space` | Aplica l'stash seleccionat |
+| `g` | Pop de l'stash (aplica i elimina) |
+| `d` | Esborra l'stash |
+| `n` | Crea una branca des de l'stash |
+ 
+### Navegació general
+ 
+| Keymap | Funció |
+|--------|--------|
+| `[` / `]` | Navega entre tabs dins d'un panell |
+| `ctrl+f` / `ctrl+b` | Scroll del preview |
+| `/` | Filtra/busca dins el panell actual |
+| `Enter` | Entra al detall |
+| `Esc` | Torna enrere |
+| `?` | Mostra tots els keymaps del context |
+| `q` | Tanca lazygit |
+ 
+---
+ 
+### Conceptes clau de Git
+ 
+**`git add` / Stage** — Marcar quins canvis vols incloure al proper commit. A lazygit és `Space` per fitxer o `a` per tot.
+ 
+**`git stash`** — Guardar temporalment els teus canvis sense fer commit, per poder canviar de branca o context i recuperar-los després. Útil quan has d'interrompre la feina a mitges.
+```
+treballant en feature X → necessito canviar de branca urgentment
+→ S (stash) → canvio de branca → arreglo el bug → torno
+→ panell Stash → g (pop) → continuo treballant en feature X
+```
+ 
+**`git commit --amend`** — Modificar el darrer commit sense crear-ne un de nou. Útil si t'has deixat un fitxer o vols corregir el missatge. A lazygit: fes stage dels canvis nous i prem `A`.
+> ⚠️ Si ja has fet push del commit, l'amend requerirà `push --force`.
