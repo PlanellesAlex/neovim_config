@@ -11,5 +11,6 @@ It is intended for (but not limited to):
 It is required to have installed the following:
 - node.js
 - npm
+- git
 - lazygit
 - pynvim (via pip install pynvim)
