@@ -25,6 +25,7 @@ vim.o.inccommand = "split"
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.o.inccommand = "split"
 vim.o.cursorline = true
+vim.opt.shortmess:append("I")
 vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 	callback = function()
 		local excluded_filetypes = { "txt", "tex", "markdown", "md" }

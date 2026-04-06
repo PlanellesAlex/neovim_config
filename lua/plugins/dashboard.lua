@@ -249,7 +249,8 @@ end
 -- ── Plugin spec per lazy.nvim ─────────────────────────────────────────────────
 return {
     "nvim-lua/plenary.nvim",  -- dependència mínima per no trencar lazy
-    lazy = true,
+    lazy = false,
+    priority = 9999,
     config = function() end,
     init = function()
         vim.api.nvim_create_autocmd("VimEnter", {
