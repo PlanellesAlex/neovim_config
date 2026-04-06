@@ -246,21 +246,9 @@ local function open_dashboard()
     end))
 end
 
--- ── Plugin spec per lazy.nvim ─────────────────────────────────────────────────
-return {
-    "nvim-lua/plenary.nvim",  -- dependència mínima per no trencar lazy
-    lazy = false,
-    priority = 9999,
-    config = function() end,
-    init = function()
-        vim.api.nvim_create_autocmd("VimEnter", {
-            once = true,
-            callback = function()
-                vim.schedule(function()
-                    set_hl()
-                    open_dashboard()
-                end)
-            end,
-        })
-    end,
-}
+if vim.fn.argc() == 0 then
+    vim.schedule(function()
+        set_hl()
+        open_dashboard()
+    end)
+end

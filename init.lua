@@ -1,3 +1,4 @@
+require("config.dashboard")
 require("config.options")
 require("config.keymaps")
 require("config.autocommands")
