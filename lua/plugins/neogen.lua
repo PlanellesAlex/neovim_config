@@ -21,7 +21,7 @@ return {
                 node = node:parent()
             end
             if not node then
-                vim.notify("Cursor no és dins d'una funció", vim.log.levels.WARN)
+                vim.notify("Cursor no dins d'una funció", vim.log.levels.WARN)
                 return
             end
 
@@ -177,11 +177,110 @@ return {
             vim.api.nvim_win_set_cursor(0, { body_row + 1, #indent })
         end
 
-        vim.keymap.set("n", "<leader>nd", generate_python_docstring,
-            { desc = "[N]eogen [D]ocstring with types" })
-        vim.keymap.set("n", "<leader>nf", generate_python_docstring,
-            { desc = "[N]eogen [F]unction docstring with types" })
-        vim.keymap.set("n", "<leader>nc", generate_class_docstring,
-            { desc = "[N]eogen [C]lass docstring with methods" })
+        -- Keymaps per filetype
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "python" },
+            callback = function()
+                vim.keymap.set("n", "<leader>nd", generate_python_docstring,
+                    { buffer = true, desc = "[N]eogen [D]ocstring with types" })
+                vim.keymap.set("n", "<leader>nf", generate_python_docstring,
+                    { buffer = true, desc = "[N]eogen [F]unction docstring with types" })
+                vim.keymap.set("n", "<leader>nc", generate_class_docstring,
+                    { buffer = true, desc = "[N]eogen [C]lass docstring with methods" })
+            end,
+        })
+
+        -- C i C++: generador custom Doxygen per sobre de la funció amb tipus
+        local function generate_cpp_docstring()
+            local node = vim.treesitter.get_node()
+            while node and node:type() ~= "function_definition" do
+                node = node:parent()
+            end
+            if not node then
+                vim.notify("Cursor no dins d'una funció", vim.log.levels.WARN)
+                return
+            end
+
+            local params = {}
+            local return_type = nil
+
+            for child in node:iter_children() do
+                local t = child:type()
+                -- Tipus de retorn
+                if t == "primitive_type" or t == "type_identifier" or t == "qualified_identifier" then
+                    if not return_type then
+                        return_type = vim.treesitter.get_node_text(child, 0)
+                    end
+                end
+                -- Paràmetres
+                if t == "function_declarator" then
+                    for sub in child:iter_children() do
+                        if sub:type() == "parameter_list" then
+                            for param in sub:iter_children() do
+                                if param:type() == "parameter_declaration" then
+                                    local ptype, pname = nil, nil
+                                    for c in param:iter_children() do
+                                        local ct = c:type()
+                                        if ct == "primitive_type" or ct == "type_identifier" or ct == "qualified_identifier" then
+                                            ptype = vim.treesitter.get_node_text(c, 0)
+                                        elseif ct == "identifier" or ct == "pointer_declarator" then
+                                            pname = vim.treesitter.get_node_text(c, 0)
+                                            pname = pname:gsub("^%*+", "")  -- treu * dels pointers
+                                        end
+                                    end
+                                    if pname and pname ~= "" then
+                                        table.insert(params, { name = pname, type = ptype })
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            local def_row  = node:start()
+            local def_line = vim.api.nvim_buf_get_lines(0, def_row, def_row + 1, false)[1]
+            local indent   = def_line:match("^(%s*)")
+
+            local lines = {}
+            table.insert(lines, indent .. "/**")
+            table.insert(lines, indent .. " * @brief [TODO:description]")
+
+            if #params > 0 then
+                table.insert(lines, indent .. " *")
+                for _, p in ipairs(params) do
+                    if p.type then
+                        table.insert(lines, indent .. " * @param " .. p.name .. " (" .. p.type .. ") [TODO:description]")
+                    else
+                        table.insert(lines, indent .. " * @param " .. p.name .. " [TODO:description]")
+                    end
+                end
+            end
+
+            if return_type and return_type ~= "void" then
+                table.insert(lines, indent .. " *")
+                table.insert(lines, indent .. " * @return [TODO:return]")
+            end
+
+            table.insert(lines, indent .. " */")
+
+            -- Insereix per SOBRE de la funció
+            vim.api.nvim_buf_set_lines(0, def_row, def_row, false, lines)
+            vim.api.nvim_win_set_cursor(0, { def_row + 1, #indent })
+        end
+
+        -- C i C++: fa servir el generador custom
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "c", "cpp" },
+            callback = function()
+                vim.keymap.set("n", "<leader>nd", generate_cpp_docstring,
+                    { buffer = true, desc = "[N]eogen [D]oxygen function" })
+                vim.keymap.set("n", "<leader>nf", generate_cpp_docstring,
+                    { buffer = true, desc = "[N]eogen [F]unction doxygen" })
+                vim.keymap.set("n", "<leader>nc", function()
+                    require("neogen").generate({ type = "class" })
+                end, { buffer = true, desc = "[N]eogen [C]lass doxygen" })
+            end,
+        })
     end,
 }
