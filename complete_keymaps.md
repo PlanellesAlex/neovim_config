@@ -51,6 +51,7 @@
 | Mode | Keymap | Funció |
 |------|--------|--------|
 | t | `<Esc><Esc>` | Surt del mode terminal a normal mode |
+| n | `<C-t>` | Toggle floating terminal |
 
 ---
 
@@ -202,19 +203,101 @@
 | n | `?` | Dins de neo-tree per veure la resta de keybinds |
 
 ---
-
-## CMake (`cmake-tools.lua`)
-
+ 
+## vim-visual-multi (`visual-multi.lua`)
+ 
+> Multi-cursor com `Ctrl+D` de VSCode. `<Esc>` per sortir del mode multi-cursor.
+ 
 | Mode | Keymap | Funció |
 |------|--------|--------|
-| n | `<leader>mg` | Genera (cmake configure) |
-| n | `<leader>mb` | Build |
-| n | `<leader>mr` | Executa |
-| n | `<leader>md` | Debug |
-| n | `<leader>mt` | Selecciona target |
-| n | `<leader>mc` | Neteja (clean) |
-| n | `<leader>ms` | Atura la compilació |
+| n | `<C-n>` | Selecciona la paraula sota el cursor i busca la següent coincidència |
+| n | `<C-n>` (repetit) | Afegeix la següent coincidència al multi-cursor |
+| n | `<C-Down>` | Afegeix cursor a la línia de sota |
+| n | `<C-Up>` | Afegeix cursor a la línia de sobre |
+| n | `<C-x>` | Afegeix cursor a la posició actual sense seleccionar |
+| n | `<leader>va` | Selecciona totes les coincidències del fitxer |
+| n | `<leader>v/` | Busca per regex i selecciona totes les coincidències |
+ 
+---
+ 
+## treesj (`treesj.lua`) — split/join de blocs
+ 
+> Expandeix o col·lapsa funcions, arrays, diccionaris, structs... en una o múltiples línies.
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `<leader>jt` | Toggle automàtic (split o join segons context) |
+| n | `<leader>js` | Split: expandeix una línia en múltiples |
+| n | `<leader>jj` | Join: col·lapsa múltiples línies en una |
+ 
+---
+ 
+## Neogen (`neogen.lua`) — docstrings
+ 
+> Posa el cursor sobre una funció o classe i executa el keymap.
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `<leader>nd` | Genera docstring amb tipus dels arguments |
+| n | `<leader>nf` | Genera docstring de funció amb tipus |
+| n | `<leader>nc` | Genera docstring de classe amb secció Methods |
+ 
+---
 
+## CMake Tools (`cmake-tools.lua`)
+ 
+> Necessita un `CMakeLists.txt` a l'arrel del projecte.
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `<leader>mg` | Genera (cmake configure) — crea la carpeta `build/` |
+| n | `<leader>mb` | Build — compila el projecte |
+| n | `<leader>mr` | Run — executa el target seleccionat |
+| n | `<leader>md` | Debug — inicia el debugger |
+| n | `<leader>mt` | Selecciona el target a compilar/executar |
+| n | `<leader>mc` | Clean — esborra els fitxers compilats |
+| n | `<leader>ms` | Stop — atura la compilació |
+ 
+### Com funciona CMake Tools
+ 
+**Workflow bàsic:**
+ 
+```
+1. Obre Neovim des de l'arrel del projecte (on és el CMakeLists.txt)
+2. <leader>mg  → cmake configure (crea build/ i detecta el compilador)
+3. <leader>mb  → cmake build (compila)
+4. <leader>mt  → selecciona quin executable vols executar
+5. <leader>mr  → executa
+```
+ 
+**Estructura de projecte típica:**
+```
+projecte/
+├── CMakeLists.txt       ← arrel
+├── build/               ← es crea automàticament amb <leader>mg
+└── src/
+    └── main.cpp
+```
+ 
+**CMakeLists.txt mínim per C++:**
+```cmake
+cmake_minimum_required(VERSION 3.20)
+project(NomProjecte)
+set(CMAKE_CXX_STANDARD 17)
+add_executable(NomProjecte src/main.cpp)
+```
+ 
+**Amb subdirectoris (com el teu projecte amb `Source/`):**
+```cmake
+cmake_minimum_required(VERSION 3.20)
+project(NomProjecte)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)  -- important per clangd
+add_subdirectory(Source)
+```
+ 
+**`CMAKE_EXPORT_COMPILE_COMMANDS ON`** és important perquè genera el `compile_commands.json` que clangd llegeix per saber els include paths i flags de compilació — sense ell clangd no trobarà els headers del projecte.
+ 
 ---
 
 ## Clangd Extensions (`clangd-extensions.lua`)
@@ -225,6 +308,9 @@
 | n | `<leader>ct` | Jerarquia de tipus |
 | n | `<leader>cm` | Memory usage |
 | n | `<leader>cs` | Symbol info |
+
+### Què són els inlay hints?
+Els inlay hints mostren informació de tipus directament al codi sense que tu l'hagis escrit. Per exemple, si tens `auto x = foo()`, l'inlay hint mostra `int` al costat de `x` perquè sàpigues el tipus retornat. En C++ amb templates o `auto` és especialment útil.
 
 ---
  
@@ -240,6 +326,36 @@
 | n | `gzf` | Busca el surround endavant |
 | n | `gzF` | Busca el surround enrere |
 | n | `gzh` | Ressalta el surround |
+
+---
+ 
+## Dashboard (`dashboard.lua`) — actiu a la pantalla d'inici
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `a` | Obre el fitxer recent 1 |
+| n | `s` | Obre el fitxer recent 2 |
+| n | `d` | Obre el fitxer recent 3 |
+| n | `f` | Obre el fitxer recent 4 |
+| n | `g` | Obre el fitxer recent 5 |
+| n | `h` | Obre el fitxer recent 6 |
+| n | `j` | Obre el fitxer recent 7 |
+| n | `k` | Obre el fitxer recent 8 |
+| n | `e` | Nou fitxer en blanc |
+| n | `r` | Refresca el dashboard |
+| n | `q` | Tanca Neovim |
+ 
+---
+ 
+## Aerial (`aerial.lua`)
+ 
+| Mode | Keymap | Funció |
+|------|--------|--------|
+| n | `<leader>cf` | Obre/tanca el panell de símbols |
+| n | `<leader>cn` | Salta al símbol següent |
+| n | `<leader>cp` | Salta al símbol anterior |
+| n | `<leader>cs` | Busca símbols amb telescope |
+ 
 ---
 
 ## Lazygit — Tutorial
