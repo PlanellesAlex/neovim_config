@@ -3,6 +3,16 @@ return {
     version = "*",
     event = "BufReadPost",
     opts = {
+        custom_surroundings = {
+            ["("] = { output = { left = "(", right = ")" } },
+            [")"] = { output = { left = "(", right = ")" } },
+            ["["] = { output = { left = "[", right = "]" } },
+            ["]"] = { output = { left = "[", right = "]" } },
+            ["{"] = { output = { left = "{", right = "}" } },
+            ["}"] = { output = { left = "{", right = "}" } },
+            ["<"] = { output = { left = "<", right = ">" } },
+            [">"] = { output = { left = "<", right = ">" } },
+        },
         mappings = {
             add            = "gza",  -- afegir surround: gza + motion + caràcter
             delete         = "gzd",  -- esborrar surround: gzd
