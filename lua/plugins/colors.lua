@@ -1,3 +1,8 @@
+-- aixo no es mes que un fitxer per sobreescriure els colors de tokyionight 
+-- i poder tenir les coses liles.
+-- Tambe es el fiter on posos que el colorscheme que vulle s tokyionight
+
+
 local function enable_transparency()
     vim.api.nvim_set_hl(0, "Normal", {bg="none"})
     -- Enable transparent background (only for neovim NOT neovide)
@@ -41,6 +46,12 @@ return {
                     vim.api.nvim_set_hl(0, "TelescopePreviewBorder",  { fg = p.cursor })
                     vim.api.nvim_set_hl(0, "TelescopeSelectionCaret", { fg = p.cursor })
                     vim.api.nvim_set_hl(0, "TelescopeMatching",       { fg = p.cursor, bold = true })
+		    vim.api.nvim_set_hl(0, "ToggleTermNormal",       { bg = p.bg_float })
+                    vim.api.nvim_set_hl(0, "ToggleTermBorder",       { fg = p.cursor,   bg = p.bg_float })
+		    for i = 1, 10 do
+                        vim.api.nvim_set_hl(0, "ToggleTerm" .. i .. "NormalFloat", { bg = p.bg_float })
+                        vim.api.nvim_set_hl(0, "ToggleTerm" .. i .. "FloatBorder", { fg = p.cursor, bg = p.bg_float })
+                    end
                 end,
             })
         end,
