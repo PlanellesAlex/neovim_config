@@ -18,6 +18,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 vim.keymap.set("v", "++", '"+y', {desc = "Yank to system clipboard"})
+vim.keymap.set("v", "--", '"+p', {desc = "Paste from the system clipboard"})
 
 vim.keymap.set("n", "<leader>w", function()
     vim.cmd("w")
