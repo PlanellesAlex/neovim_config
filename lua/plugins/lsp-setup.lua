@@ -154,7 +154,12 @@ return {
                     map("K",          vim.lsp.buf.hover,          "Hover documentation")
                     map("<leader>ca", vim.lsp.buf.code_action,    "[C]ode [A]ction")
                     map("<leader>rn", vim.lsp.buf.rename,         "[R]e[n]ame")
-                    map("<leader>fs", vim.lsp.buf.format,         "[F]ormat [S]ource")
+                    map("<leader>fs", function()
+                        vim.opt_local.tabstop     = 4
+                        vim.opt_local.shiftwidth  = 4
+                        vim.opt_local.expandtab   = true
+                        vim.lsp.buf.format()
+                    end, "[F]ormat [S]ource")
                 end,
             })
 
