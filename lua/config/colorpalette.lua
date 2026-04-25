@@ -90,4 +90,7 @@ p.todo_perf       = "#acaaff"   -- = p.lavender
 -- ─── Statusline sections (background) ────────────────────────────────────
 p.statusline_bg_b = "#28282e"   -- fons section b/c statusline
 
+-- colors floating terminal
+p.terminal_fg = "#e6aeff"  -- canvia pel hex exacte
+
 return p
