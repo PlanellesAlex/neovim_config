@@ -20,7 +20,12 @@ return {
                     },
                 },
                 hover = {
-                    enabled = true,
+		    -- enabled = true,
+		    border = { style = "rounded" },
+		    win_options = {
+			winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
+			filetype = { default = "markdown" },  -- força markdown per tots els lsp
+		    },
                 },
                 override = {
                     -- fa servir noice per renderitzar la documentació LSP
