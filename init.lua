@@ -3,6 +3,7 @@ require("config.options")
 require("config.keymaps")
 require("config.autocommands")
 require("config.neovide")
+require("config.highlights")
 require("config.lazy") -- Plugin Manager
 
 -- Aixo d'aqui ho fa folke/todo-comments.nvim
