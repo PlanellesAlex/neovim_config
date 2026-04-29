@@ -1,5 +1,3 @@
-local p = require("config.colorpalette")
-
 return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
@@ -20,9 +18,6 @@ return {
         },
     },
     config = function(_, opts)
-        vim.api.nvim_set_hl(0, "IblIndent", { fg = p.purple_light })  -- línies apagades
-        vim.api.nvim_set_hl(0, "IblScope",  { fg = p.purple })   -- scope actual lila
-	vim.api.nvim_set_hl(0, "IblScopeUnderline1", {sp = p.purple, underdouble = true})
         require("ibl").setup(opts)
     end,
 }

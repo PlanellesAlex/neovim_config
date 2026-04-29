@@ -18,15 +18,15 @@ return {
 
         require("luasnip.loaders.from_vscode").lazy_load()
 	
-	local p = require("config.colorpalette")
-	local function set_cmp_hl()
-            vim.api.nvim_set_hl(0, "CmpNormal", { bg = p.bg_float })
-            vim.api.nvim_set_hl(0, "CmpBorder", { fg = p.cursor,   bg = p.bg_float })
-	    vim.api.nvim_set_hl(0, "CmpDocBorder", { fg = p.purple_bright, bg = p.bg_float })
-            vim.api.nvim_set_hl(0, "CmpSel",    { fg = p.white,    bg = p.bg_float_sel, bold = true })
-        end
-        vim.schedule(set_cmp_hl)
-        vim.api.nvim_create_autocmd("ColorScheme", { callback = set_cmp_hl })
+	-- local p = require("config.colorpalette")
+	-- local function set_cmp_hl()
+	--            vim.api.nvim_set_hl(0, "CmpNormal", { bg = p.bg_float })
+	--            vim.api.nvim_set_hl(0, "CmpBorder", { fg = p.cursor,   bg = p.bg_float })
+	--     vim.api.nvim_set_hl(0, "CmpDocBorder", { fg = p.purple_bright, bg = p.bg_float })
+	--            vim.api.nvim_set_hl(0, "CmpSel",    { fg = p.white,    bg = p.bg_float_sel, bold = true })
+	--        end
+	--        vim.schedule(set_cmp_hl)
+	--        vim.api.nvim_create_autocmd("ColorScheme", { callback = set_cmp_hl })
 
         cmp.setup({
             snippet = {

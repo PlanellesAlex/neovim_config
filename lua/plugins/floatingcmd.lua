@@ -76,21 +76,7 @@ return {
                     }, -- win_options
                 }, -- cmdline_popup
             }, -- views
-
-
 	})-- require().setup()
-	local p = require("config.colorpalette")
-
-
-	vim.api.nvim_set_hl(0, "NoiceCmdlinePopup",           { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder",      { fg = "#a200ff", bg = "NONE" })
-	vim.api.nvim_set_hl(0, "NoiceCmdlineIcon",             { fg = "#a200ff", bg = "NONE" })
-	vim.api.nvim_set_hl(0, "NoicePopup",                   { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "NoicePopupBorder",             { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "NormalFloat",                  { bg = p.bg_float})
-	vim.api.nvim_set_hl(0, "FloatBorder",                  { bg = p.bg_float, fg = p.cursor})
-	vim.api.nvim_set_hl(0, "FloatTitle",  {bg = p.bg_float, fg = p.cursor})
-
     end -- config=function()
 
 } -- return

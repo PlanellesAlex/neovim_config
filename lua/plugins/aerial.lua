@@ -1,5 +1,3 @@
-local p = require("config.colorpalette")
-
 return {
     "stevearc/aerial.nvim",
     dependencies = {
@@ -51,14 +49,14 @@ return {
         })
 
         -- Colors
-        vim.api.nvim_set_hl(0, "AerialLine",       { bg = p.bg_float_sel, bold = true })
-        vim.api.nvim_set_hl(0, "AerialNormal",     { bg = p.bg_float })
-        vim.api.nvim_set_hl(0, "AerialGuide",      { fg = p.fg_dim })
-        vim.api.nvim_set_hl(0, "AerialClass",      { fg = p.yellow })
-        vim.api.nvim_set_hl(0, "AerialFunction",   { fg = p.cyan })
-        vim.api.nvim_set_hl(0, "AerialMethod",     { fg = p.cyan })
-        vim.api.nvim_set_hl(0, "AerialModule",     { fg = p.yellow })
-        vim.api.nvim_set_hl(0, "AerialStruct",     { fg = p.yellow })
+        -- vim.api.nvim_set_hl(0, "AerialLine",       { bg = p.bg_float_sel, bold = true })
+        -- vim.api.nvim_set_hl(0, "AerialNormal",     { bg = p.bg_float })
+        -- vim.api.nvim_set_hl(0, "AerialGuide",      { fg = p.fg_dim })
+        -- vim.api.nvim_set_hl(0, "AerialClass",      { fg = p.yellow })
+        -- vim.api.nvim_set_hl(0, "AerialFunction",   { fg = p.cyan })
+        -- vim.api.nvim_set_hl(0, "AerialMethod",     { fg = p.cyan })
+        -- vim.api.nvim_set_hl(0, "AerialModule",     { fg = p.yellow })
+        -- vim.api.nvim_set_hl(0, "AerialStruct",     { fg = p.yellow })
 
         -- Keymaps
         vim.keymap.set("n", "<leader>cf", "<cmd>AerialToggle<CR>",
