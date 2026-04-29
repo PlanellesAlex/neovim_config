@@ -16,25 +16,28 @@ local function set_hl()
     vim.api.nvim_set_hl(0, "DashBatteryLow",{ fg = p.mode_replace })
 end
 
--- ── Utils ─────────────────────────────────────────────────────────────────────
-local function get_battery()
-    local raw = vim.fn.system("WMIC Path Win32_Battery Get EstimatedChargeRemaining /Value 2>nul")
-    local pct = raw:match("EstimatedChargeRemaining=(%d+)")
-    if pct then
-        local n = tonumber(pct)
-        local icon = n > 80 and "󰁹" or n > 60 and "󰂀" or n > 40 and "󰁾" or n > 20 and "󰁼" or "󰁺"
-        return icon .. " " .. pct .. "%", n
-    end
-    return "󰁹 100%", 100  -- PC sense bateria
-end
+-- ── Async data cache ──────────────────────────────────────────────────────────
+local _cache = { battery = "󰁹 ...", battery_pct = 100 }
+local render  -- forward declaration (render is defined below, used in callbacks)
 
-local function get_uptime()
-    local raw = vim.fn.system(
-        'powershell -NoProfile -Command "(New-TimeSpan -Start (gcim Win32_OperatingSystem).LastBootUpTime).ToString(\'d\\d\\ hh\\h\\ mm\\m\')" 2>nul'
-    )
-    raw = raw:gsub("%s+", "")
-    if raw == "" then return "N/A" end
-    return raw
+local function fetch_slow_data(buf)
+    vim.system(
+        { "cmd", "/c", "WMIC Path Win32_Battery Get EstimatedChargeRemaining /Value 2>nul" },
+        { text = true },
+        function(r)
+            local pct = r.stdout and r.stdout:match("EstimatedChargeRemaining=(%d+)")
+            if pct then
+                local n = tonumber(pct)
+                _cache.battery_pct = n
+                _cache.battery = (n > 80 and "󰁹" or n > 60 and "󰂀" or n > 40 and "󰁾" or n > 20 and "󰁼" or "󰁺") .. " " .. pct .. "%"
+            else
+                _cache.battery = "󰁹 100%"
+            end
+            vim.schedule(function()
+                if vim.api.nvim_buf_is_valid(buf) then render(buf) end
+            end)
+        end)
+
 end
 
 local function get_datetime()
@@ -63,12 +66,11 @@ local function get_recent_files(max)
 end
 
 -- ── Render ────────────────────────────────────────────────────────────────────
-local function render(buf)
+render = function(buf)
     if not vim.api.nvim_buf_is_valid(buf) then return end
 
     local width   = vim.api.nvim_win_get_width(0)
-    local battery, batt_pct = get_battery()
-    local uptime  = get_uptime()
+    local battery, batt_pct = _cache.battery, _cache.battery_pct
     local datetime = get_datetime()
     local cwd     = get_cwd()
     local files   = get_recent_files(8)
@@ -120,7 +122,6 @@ local function render(buf)
     -- sep()
     add(datetime,              "DashInfo")
     add(" " .. cwd,           "DashDim")
-    add("󰔟 Uptime: " .. uptime, "DashInfo")
 
     -- Bateria
     local batt_hl = batt_pct <= 20 and "DashBatteryLow" or "DashBattery"
@@ -205,7 +206,7 @@ local function setup_keymaps(buf)
 
     vim.keymap.set("n", "q", "<cmd>qa<CR>",        opts)
     vim.keymap.set("n", "e", "<cmd>enew<CR>",       opts)
-    vim.keymap.set("n", "r", function() render(buf) end, opts)
+    vim.keymap.set("n", "r", function() fetch_slow_data(buf) end, opts)
     -- Desactiva navegació inútil en el dashboard
     vim.keymap.set("n", "<Up>",   "<Nop>", opts)
     vim.keymap.set("n", "<Down>", "<Nop>", opts)
@@ -233,6 +234,7 @@ local function open_dashboard()
 
     set_hl()
     render(buf)
+    fetch_slow_data(buf)
     setup_keymaps(buf)
 
     -- Refresh automàtic cada minut
