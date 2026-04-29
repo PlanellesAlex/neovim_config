@@ -88,7 +88,36 @@ p.todo_note       = "#10B981"
 p.todo_perf       = "#acaaff"   -- = p.lavender
 
 -- ─── Statusline sections (background) ────────────────────────────────────
-p.statusline_bg_b = "#28282e"   -- fons section b/c statusline
+p.statusline_bg_b        = "#28282e"   -- fons section b/c statusline
+p.statusline_filename_bg = "#cc00ee"   -- fons section filename (lila-rosa viu)
+
+p.statusline_mode_bg = "#cd6fff"
+p.statusline_mode_fg = "#1b1d2b"
+p.statusline_filename_bg = "#3b4261"
+p.statusline_filename_fg = "#cd6fff"
+p.statusline_info_bg = "#1e2030"
+p.statusline_info_fg = "#828bb8"
+
+p.insert_mode_bg = "#e6aeff"
+p.insert_mode_fg = "#1b1d2b"
+p.insert_filename_bg = "#3b4261"
+p.insert_filename_fg = "#e6aeff"
+
+p.command_mode_bg = "#9635ea"
+p.command_mode_fg = "#1b1d2b"
+p.command_filename_bg = "#3b4261"
+p.command_filename_fg = "#9635ea"
+
+p.visual_mode_bg = "#facc15"
+p.visual_mode_fg = "#1b1d2b"
+p.visual_filename_bg = "#3b4261"
+p.visual_filename_fg = "#facc15"
+
+p.replace_mode_bg = "#de597e"
+p.replace_mode_fg = "#1b1d2b"
+p.replace_filename_bg = "#3b4261"
+p.replace_filename_fg = "#de597e"
+
 
 -- colors floating terminal
 p.terminal_fg = "#e6aeff"  -- canvia pel hex exacte
