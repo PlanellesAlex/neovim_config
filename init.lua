@@ -5,11 +5,12 @@ require("config.autocommands")
 require("config.neovide")
 require("config.highlights")
 require("config.lazy") -- Plugin Manager
+require("noice").notify("Hello from Alex P config", "info")
 
 -- Aixo d'aqui ho fa folke/todo-comments.nvim
 -- TODO: procrastinar
 -- WARNING: alerta
 -- PERF: perfectament optimitzat
 -- NOTE: nota
--- FIX: Al neovide no surten be els icons del which-key
+-- FIX: your attitude
 -- HACK: hackathon
