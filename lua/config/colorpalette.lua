@@ -98,10 +98,10 @@ p.statusline_filename_fg = "#cd6fff"
 p.statusline_info_bg = "#1e2030"
 p.statusline_info_fg = "#828bb8"
 
-p.insert_mode_bg = "#e6aeff"
-p.insert_mode_fg = "#1b1d2b"
+p.insert_mode_bg = "#751da5" -- "#e6aeff"
+p.insert_mode_fg = "#cd6fff" -- "#1b1d2b"
 p.insert_filename_bg = "#3b4261"
-p.insert_filename_fg = "#e6aeff"
+p.insert_filename_fg = "#cd6fff"-- "#e6aeff"
 
 p.command_mode_bg = "#9635ea"
 p.command_mode_fg = "#1b1d2b"
