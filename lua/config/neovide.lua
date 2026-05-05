@@ -3,9 +3,10 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_trail_size = 1
 	vim.g.neovide_cursor_vfx_mode = { "pixiedust" } --  es poden posar m'es d'un efecte posant {"efecte1", "efecte2", etc}
 	vim.g.neovide_cursor_vfx_particle_lifetime = 3
-	vim.g.neovide_cursor_vfx_particle_density = 3
+	vim.g.neovide_cursor_vfx_particle_density = 5
 	vim.g.neovide_fullscreen = true
 	vim.g.neovide_hide_mouse_when_typing = true
 	vim.g.neovide_theme = "dark" -- auto, light, dark, bg_color
 	vim.o.guifont = "JetBrainsMono Nerd Font:h14"
+	vim.o.belloff = "all"
 end
