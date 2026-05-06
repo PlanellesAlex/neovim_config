@@ -11,7 +11,7 @@ return {
 		sync_install = false,
 		highlight = {
 		    enable = true,
-		    disable = {"c", "rust", "latex"}, -- disable
+		    disable = {"c", "cpp", "rust", "latex", "markdown"}, -- disable
 		    additional_vim_regex_highlighting = {
 			"ruby",
 		    } -- additional_vim_regex_highlighting
