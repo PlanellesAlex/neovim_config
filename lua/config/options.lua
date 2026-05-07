@@ -60,6 +60,27 @@ vim.diagnostic.config({
     virtual_text = true, -- que et surti l'error al final de la linia on hi ha l'error
     virtual_lines = false, -- que et surti l'error a sota de la linia on hi ha l'error
 			    -- com un subratllat
+    update_in_insert = false,
+    float = {border = "rounded"},
 
 
 }) -- vim.diagnostic.config()
+
+ -- Neovim's built-in diagnostic re-show only hooks InsertLeave, which <C-c> skips.
+ -- ModeChanged with i*:n* fires for both <Esc> and <C-c>.
+ vim.api.nvim_create_autocmd("ModeChanged", {
+     pattern = "i*:n*",
+     callback = function()
+         vim.diagnostic.show(nil, 0)
+     end,
+ })
+
+ -- Also re-render when the LSP publishes diagnostics after we've left insert mode
+ -- (handles slow LSPs that send results after the mode transition).
+ vim.api.nvim_create_autocmd("DiagnosticChanged", {
+     callback = function()
+         if not vim.api.nvim_get_mode().mode:find("^i") then
+             vim.diagnostic.show(nil, 0)
+         end
+     end,
+ })
