@@ -1,6 +1,12 @@
 return {
     "folke/todo-comments.nvim",
     dependencies = {"nvim-lua/plenary.nvim"},
+    keys = {
+	{ "]t", function() require("todo-comments").jump_next() end, desc = "Next TODO" },
+	{ "[t", function() require("todo-comments").jump_prev() end, desc = "Prev TODO" },
+	{ "<leader>st", "<cmd>TodoTelescope<cr>",  desc = "[S]earch [T]ODOs (project)" },
+	{ "<leader>tt", "<cmd>TodoLocList<cr>",    desc = "[T]ODOs in current file" },
+    },
     opts = {
 	signs = true, -- show icons in the signs column
 	sign_priority = 8, -- sign priority
