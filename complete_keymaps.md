@@ -67,6 +67,7 @@
 | n | `<leader>rn` | Renombra el símbol |
 | n | `<leader>fs` | Formata el fitxer |
 | n | `<leader>ca` | Code actions (filtrades) |
+| n | `<leader>d` | Show diagnostic under cursor |
 
 ---
 
@@ -104,6 +105,9 @@
 | n | `<leader>-` | Cerca fitxers ocults |
 | n | `<leader>s/` | Cerca en els fitxers oberts |
 | n | `<leader>sn` | Cerca dins la config de Neovim |
+| n | `]t / [t` | Ves al següent / anterior TODO dins del fitxer |
+| n | `<leader>st` | Cerca TODO's a tot el projecte |
+| n | `<leader>tt` | Obre llista de cada TODO dins el fitxer actual |
 
 ---
 
