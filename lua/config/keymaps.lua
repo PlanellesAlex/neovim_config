@@ -43,6 +43,7 @@ vim.keymap.set({ "n", "v" }, "<C-ç>", "gc", { remap = true, desc = "Toggle comm
 vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "[T]oggle [D]iagnostics" })
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {desc = "[D]iagnostic float"})
 
 -- Dismiss Noice Messages (plugin de la floatingcmd.lua)
 vim.keymap.set("n", "<leader>tm", "<cmd>NoiceDismiss<CR>", {desc = "[T]oggle Noice [M]essage"})
